@@ -1,6 +1,6 @@
 # Chapter 3 - Generics and Collections
 
-## Reviewing  OCA Collections
+## Reviewing OCA Collections
 
 ### Array and ArrayList
 
@@ -67,13 +67,13 @@ numbers.remove(1);                 // [1, 5]
 numbers.remove(new Integer(5));    // [1]
 System.out.println(numbers);       // [1]
 ```
-Note: the `remove` method is oberloaded and will remove an index postition  - `remove(int index)` -  or an item in the collection - `remove(Object item)`. Java did not *autobox* the `remove(1)` call, as it matched it to a valid signature before autoboxing, so the compiler assumed you wanted to call that method and not `remove(new Integer(1))`.
+Note: the `remove` method is overloaded and will remove an index position  - `remove(int index)` -  or an item in the collection - `remove(Object item)`. Java did not *autobox* the `remove(1)` call, as it matched it to a valid signature before auto boxing, so the compiler assumed you wanted to call that method and not `remove(new Integer(1))`.
 
 ## Working with Generics
 
 ### Generic Classes
 
-Generics can ben introduced by declaring a *formal type parameter* in angle brackets. For example, the following class named `Crate` has a generic ype variable declared after the name of the class:
+Generics can been introduced by declaring a *formal type parameter* in angle brackets. For example, the following class named `Crate` has a generic type variable declared after the name of the class:
 
 ```java
 public class Crate<T> {
@@ -243,7 +243,7 @@ addSound(strings);
 addSound(objects);
 ```
 
-In this example unbounded or upper bounded generics are not a solution, as neither allow for mutability (they are both immutable). Thus a new bound, the lower bound is requried.
+In this example unbounded or upper bounded generics are not a solution, as neither allow for mutability (they are both immutable). Thus a new bound, the lower bound is required.
 
 With a lower bound, we are telling Java that the list will be a list of String objects or some list of objects that are a superclass to String. Ether way it is safe to add a String to that list.
 
@@ -254,3 +254,315 @@ public static void addSound(List<? super String? list) {
   list.add("quack");
 }
 ```
+
+## Using Lists, Sets, Maps & Queues
+
+The *Java Collections Framework* is a set of classes in `java.util` for storing collections. There are four main interfaces in the Java Collections Framework:
+
+* `List:` A *list* is an ordered collection of elements that allows duplicate entries. Elements in a list can be access by an index.
+* `Set:` A *set* is an collection that does not allow duplicates.
+* `Queue:` A *queue* is a collection that orders it elements in a specific order for processing, e.g. first-in, first-out.
+* `Map:` A *map* is a collection that maps keys to values, with no duplicate keys allowed.
+
+
+### Common Collections Methods
+
+#### add
+
+The `add()` method inserts a new element into the Collection and returns whether it was successful. The method signature is:
+
+```
+boolean add(E element);
+```
+
+For a *list* the method always returns `true`, whilst when adding to a `set`, the method will return `false` if the item is already in the `set`.
+
+#### remove
+
+The `remove()` method removes a single matching value in the Collection and returns whether it was successful. The method signature is:
+
+```
+boolean add(Object object);
+```
+
+The method will return `true` when it removed an element that was found within the Collection, whilst returning false if the element was not found within the Collection. *Note:* `remove()` *will remove the first matching element, if there are duplicates within the* `List` *only the first element will be removed.*
+
+When calling `remove()` with an `int` it will remove the element at the index location. When the index location does not exist an `IndexOutOfBoundsException` this thrown.
+
+#### isEmpty and size
+
+The `isEmpty()` and `size()` methods look at how many elements are in the Collection. The method signatures are:
+
+```
+boolean isEmpty();
+int size();
+```
+
+#### clear
+
+The `clear()` method provides an easy way to discard all elements of the Collection. The method signature is:
+
+```
+void clear();
+```
+
+#### contains
+
+The `contains()` method check if a certain value is in the Collection. This method calls `equals()` on each element of the `ArrayList` to see if there are any matches. The method signature is:
+
+```
+boolean contains(Object object);
+```
+
+### Using the *List* Interface
+
+All implementations of the `List` interface are ordered and allow duplicates, they also all implement the same methods.
+
+* An `ArrayList` is like a resizable array. Looking up elements takes `O(1)` - constant time, but modifying the `ArrayList` is slower than accessing an element. This makes an `ArrayList` a good choice when you are reading more often then writing.
+* A `LinkedList` implements both `List` and `Queue`, and has additional methods to facilitate adding or removing from the beginning and/or end of the list. `LinkedList` allows for constant time insertions or removals using iterators, but only sequential access of elements. `LinkedLists` are a good choice when you'll be using it as a `Queue`.
+* A `Stack` is a data structure where you add and remove element from the top of the stack (e.g. like a stack of paper). `Stack` is a legacy structure, to which `ArrayDeque` is the replacement.
+
+In addition to the inherited `Collection` methods, the method signatures of the `List` interface are as follows:
+
+| Method | Description |
+|--------------------------------|---------------------------------------------------------------------------------------------|
+| void add(int index, E element) | Adds `element` at `index`, and moves the rest towards the end |
+| E get(int index) | Returns element at `index` |
+| int indexOf(Object o) | Returns first matching `index` or `-1` if not found |
+| int last indexOf(Object o) | Returns last matching `index` or `-1` if not found |
+| E remove(int index) | Removes element at `index`, then moves the rest toward the front, and returns the `element` |
+| E set(int index, E e) | Replaces `element` at index, returning the original |
+
+
+### Using the *Set* Interface
+
+All implementations of the `Set` interface are not ordered and do not allow duplicates.
+
+* A `HashSet` stores its elements in a hash table, using the `hashCode()` method to determine it's bucket location. Adding and accessing elements in the set both have constant time, but the order in which elements are inserted is lost.
+* A `TreeSet` stores its elements in a sorted tree structure, which means all elements are sorted. However adding and checking if an element is present are both `O(log n)` - logarithmic time. Elements are accessed in their natural sorted order, e.g. numbers smallest to largest. Elements cannot be `null`.
+
+The `Set` interface does not add any extra methods, and uses the default `Collection` methods.
+
+
+### Using the *Queue* Interface
+
+All implementations of the `Queue` interface support adding and removing elements in a specific order. Unless stated, a queue is assumed to be a FIFO (first-in, first-out). A `Queue` will allow duplicate elements.
+
+* A `LinkedList` implements both the `List` and `Queue` interfaces, and thus is a List and a double-ended queue. A double-ended queue supports adding elements and removing elements from both the front and back of the queue. A `LinkedList` is not as efficient as a "pure" queue.
+* An `ArrayDeque` is a "pure" double-ended queue, storing elements in a resizable array. The `ArrayDeque` is more efficient than a `LinkedList`. Elements cannot be inserted as `null`.
+
+In addition to the inherited `Collection` methods, the method signatures of the `ArrayDeque` class are as follows:
+
+| Method | Description | For queue | For Stack |
+|--------------------------|----------------------------------------------------------------------------------------|-----------|-----------|
+| boolean add(E element) | Adds an `element` to the back of the queue and returns `true` or throws an `Exception` | Yes | No |
+| E element() | Returns next `element` or throws an `Exception` | Yes | No |
+| boolean offer(E element) | Adds an `element` to the back of the queue and returns whether successful | Yes | No |
+| E remove() | Removes and returns next `element` or throws `Exception` if empty queue | Yes | No |
+| void push(E e) | Adds an `element` to the front of the queue | No | Yes |
+| E poll() | Removes and returns next element or returns `null` if queue is empty | Yes | No |
+| E peek() | Returns next `element` or returns `null` if queue is empty | Yes | Yes |
+| E pop() | Removes and returns next `element` or throws an `Exception` if queue is empty | No | Yes |
+
+The difference between an `ArrayDeque` is being used as a stack or a queue is really important. A queue is like a line of people, you join at the back, and leave at the front, while a stack is like a stack of plates, you put plates on top of each other and take them off from the top.
+
+
+### Using the *Map* Interface
+
+All implementations of the `Map` interface support identifying values by a key, such as a contact list.
+
+* A `HashMap` store the keys in a has table, which uses the `hashCode()` method of the keys to retrieve their values for efficiently. Adding and retrieving elements both have constant time, but the order in which the insertion occurred is lost - *note: `LinkedHashMap` maintains insertion order*.
+* A `TreeMap` stores the keys in a sorted tree structure, ensuring that the key are always in sorted order, but adding and checking if a key is present are both logarithmic time. Elements are accessed in their natural sorted order, e.g. numbers smallest to largest. Keys cannot be `null`.
+* A `Hashtable` is the old, thread-safe implementation and will not be expected to use it, as it was replaced with the `HashMap`. Keys or values cannot be `null`.
+
+A `Map` does not extend `Collection`, and therefore has it's own methods as shown below:
+
+| Method | Description |
+|-----------------------------------|--------------------------------------------------------------------|
+| void clear() | Removes all keys and values from the map |
+| boolean isEmpty() | Returns whether the map is empty |
+| int size() | Returns the number of entries in the map |
+| V get(Object key) | Returns the value mapped by `key` or null if none is mapped |
+| V put(K key, V value) | Adds or replaces key/value pair. Returns previous value or `null`. |
+| V remove(Object key) | Removes and returns value mapped to key. Returns `null` if none. |
+| boolean containsKey(Object key) | Returns whether `key` is in a map. |
+| boolean containsValue(Object key) | Returns whether `value` is in a map. |
+| Set<K> keySet() | Returns set of all keys |
+| Collection<V> values() | Returns `Collection` of all values |
+
+
+## Comparator vs Comparable
+
+By default numbers sort before letters and uppercase letters sort before lowercase letters. Sorting objects that you create can be completed using the Comparable interface.
+
+### Comparable
+
+The `Comparable` interface has only one method, as shown below:
+
+```java
+public interface Comparable<T> {
+  public int compareTo(T o);
+}
+```
+There are three rules to know when implementing the `compareTo` method:
+
+* `0` is returned when the current object is equal to the `compareTo()` method argument.
+* A number less than `0` is returned when the current object is smaller than the `compareTo()` method argument.
+* A number greater than `0` is returned when the current object is larger than the `compareTo()` method argument.
+
+
+### Comparator
+
+The `Comparator` interface allows for objects to be compared differently to how it may have been implemented within the `compareTo` method. The `Comparator` interface has only one method, as shown below:
+
+```java
+public interface Comparator<T> {
+  public int compare(T a, T b);
+}
+```
+
+The `Collections` interface provides a `sort` method that can be used to sort lists. For example:
+
+```java
+List<Duck> ducks = new ArrayList<>();
+// ... add elements to the list
+
+// Sorts the list by the Comparable interface
+Collections.sort(ducks); 
+
+
+// Create a custom comparator
+Comparator<Duck> byWeight = new Comparator<Duck>() {
+  public int compare(Duck d1, Duck d2) {
+    return d1.getWeight() - d2.getWeight();
+  }
+};
+
+// Sorts the list by the Comparator interface
+Collections.sort(ducks, byWeight);
+```
+
+When using the `sort` method without a comparator, e.g. `Collections.sort(ducks)`, list of objects must implement the `Comparable` interface. A compilation error will be raised if the objects do not implement the `Comparable` interface.
+
+Be wary of these interfaces, as they can easily be mixed up. `Comparable` requires a `compareTo` method to be defined that takes a single argument, whilst `Comparator` requires a `compare` method to be defined that take two arguments.
+
+
+### Searching & Sorting
+
+`Collections.sort` and `Collections.binarySearch` support passing a `Comparator` when you do not want to use the natural sort order.
+
+
+## Java 8 List Additions
+
+### Using Method References
+
+*Method references* are a way to make the code shorter by reducing some of the code that can be inferred by simply mentioning the name of the method.
+
+Static method example:
+
+```java
+String str = "abc";
+Consumer<List<Integer>> methodRef1 = Collections::sort;
+Consumer<List<Integer>> lambda1 = list -> Collections.sort(list);
+```
+
+Instance methods examples:
+
+```java
+String str = "abc";
+Predicate<String> methodRef2 = str::startsWith;
+Predicate<String> lambda2 = s -> str.startsWith(s);
+```
+
+```java
+Predicate<String> methodRef3 = String::isEmpty;
+Predicate<String lambda3 = s -> s.isEmpty();
+```
+
+Constructor reference examples:
+
+```java
+Supplier<ArrayList> methodRef4 = ArrayList::new;
+Supplier<ArrayList> lambda4 = () -> new ArrayList();
+```
+
+### Removing Conditionally
+
+Removes all elements from a `Collection` if the  given `Predicate` evaluates to `true`. The method signature looks like this:
+
+```java
+boolean removeIf(Predicate<? super E> filter>);
+```
+Example:
+
+
+```java
+List<String> names = Arrays.asList("Ben", "David");
+names.removeIf(name -> name.startsWith("D");
+System.out.println(names);   // [Ben]
+```
+
+### Updating All Elements
+
+The `replaceAll` method allows a lambda expression be applied to each element within a `List`. The method signature looks like this:
+
+```java
+void replaceAll(UnaryOperator<E> o);
+```
+Example:
+
+```java
+List<Integer> list = Arrays.asList(1, 2, 3);
+list.replaceAll(x -> x * 2);
+System.out.println(list);   // [2, 4, 6]
+```
+
+### Looping through a Collection
+
+The `forEach` method is similar to a for-loop, and can be used in a number of ways, including:
+
+```java
+List<String> names = Arrays.asList("Ben", "David");
+
+names.forEach(name -> System.out.println(name));
+
+names.forEach(System.out::println);
+```
+
+## Java 8 Map Additions
+
+### Put if Absent
+
+The `putIfAbsent` method will set a value within a map if the existing value is not present or null, for example:
+
+```java
+Map<String, String> favourites = new HashMap<>();
+favourites.put("Jenny", "Bus Tour");
+favourites.put("Tom", null);
+
+favourites.putIfAbsent("Jenny", "Tram");
+favourites.putIfAbsent("Sam", "Tram");
+favourites.putIfAbsent("Tom", "Tram");
+
+System.out.println(favourites);  // {Tom=Tram, Sam=Tram, Jenny=Bus Tour}
+```
+
+### merge
+
+The `merge()` method allows adding logic to the problem of what to choose. For example, suppose that our guests are indecisive and can't pick a favourite. They agree that the ride that has the longest name must be the most fun. We can write code to express this by passing a mapping function to the `merge()` method:
+
+```java
+BiFunction<String, String, String> mapper = (v1, v2) -> v1.length() > v2.length() ? v1 : v2;
+
+Map<String, String> favourites = new HashMap<>();
+favourites.put("Jenny", "Bus Tour");
+favourites.put("Tom", "Tram");
+favourites.putIfAbsent("Sam", null);
+
+favourites.merge("Jenny", "Skyride", mapper);
+favourites.merge("Tom", "Skyride", mapper);
+
+System.out.println(favourites);  // {Tom=Skyride, Jenny=Bus Tour, Sam=null}
+```
+
+Note: it is worth pointing out that the mapper function is only called when a value exists. In the above example "Sam" does not have a non-null value, and thus the mapper function skips that record.
