@@ -275,7 +275,7 @@ An example (pure java) implementation:
 			int one = 20;    // Effectively final
 			int two = one;
 			two++;           // Not final (as value has changed)
-			int three;       // Effectively final (as it's only assigned once)
+			int three;       // Effectively final (as it's only assigned once as part of the below if condition)
 			if (one == 3) three = 3;
 			else three = 4;
 			int four = 4;    // Not final (as value has changed)
