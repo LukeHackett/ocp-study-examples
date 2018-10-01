@@ -6,7 +6,7 @@ Lambda expressions can access *static variables*, *instance variables*, *effecti
 
 If a Lambda expression tries to access a non-effectively final variable (i.e. a variable that has been reassigned), then a compiler error will be thrown. 
 
-## Working with Built-In Functional Interfaces
+## <a name="funcInterfaces"></a> Working with Built-In Functional Interfaces
 
 All of the *functional interfaces* below were introduced in Java 8, and are found within the `java.util.function` package. The convention here is to use the generic type `T` for type parameter. If a second parameter is needed, the next letter `U`, is used. If a distinct return type is needed, `R` for *return* is used for the generic type.
 
@@ -19,7 +19,7 @@ All of the *functional interfaces* below were introduced in Java 8, and are foun
 | `BiPredicate<T, U>` | 2 (T, U) | `boolean` | `test` |
 | `Function<T, R>` | 1 (T) | `R` | `apply` |
 | `BiFunction<T, U, R>` | 2 (T, U) | `R` | `apply` |
-| `Unaryoperator<T>` | 1 (T) | `T` | `apply` |
+| `UnaryOperator<T>` | 1 (T) | `T` | `apply` |
 | `BinaryOperator<T>` | 2 (T, T) | `T` | `apply` |
 
 ### Implementing *Supplier*
@@ -222,14 +222,14 @@ The table below summarises most of the instance methods on the `Optional` class:
 | `isPresent()` | Returns `false` | Returns `true` |
 | `orElse(T other)` | Returns `other` parameter | Returns value |
 | `orElseGet(Supplier s)` | Returns result of calling `Supplier` | Returns value |
-| `orElseThrow(Supplier s)` | Throws exception created by calling `Supplier` | Returns value | 
+| `orElseThrow(Supplier s)` | Throws exception created by calling `Supplier` | Returns value |
 
 ## Using Streams
 
-A `stream` in Java is a sequence of data. A `stream pipeline` is the operations that run on a stream to produce a result - contextually this could be thought of as a assembly line in a factory. There are three parts to a `stream pipeline`:
+A `stream` in Java is a sequence of data. A `stream pipeline` is the operations that run on a stream to produce a result - contextually this could be thought of as an assembly line in a factory. There are three parts to a `stream pipeline`:
 
 1. *Source:* where the stream comes from
-2. *Intermediate operations:* Transforms he stream into another one. there can be as few or as many intermediate operations as you'd like. Since streams use lazy evaluation, the intermediate operations do not run until the terminal operation runs.
+2. *Intermediate operations:* Transforms the stream into another one. there can be as few or as many intermediate operations as you'd like. Since streams use lazy evaluation, the intermediate operations do not run until the terminal operation runs.
 3. *Terminal operation:* Actually produces a result. Since streams can be used only once, the stream is no longer valid after a terminal operation completes.
 
 The differences between intermediate and terminal operations are shown in the table below:
@@ -274,7 +274,8 @@ You can perform a terminal operation without any intermediate operations but not
 
 | Method | What Happens for Infinite Streams | Return Value | Reduction |
 |----------------------------------------------------|-----------------------------------|---------------|-----------|
-| `allMatch()` <br/> `anyMatch()` <br/> `nonMatch()` | Sometimes terminates | `boolean` | No |
+| `anyMatch()` | Terminates | `boolean` | No |
+| `allMatch()` <br/>  `noneMatch()` | Does not terminate | `boolean` | No |
 | `collect()` | Does not terminate | Varies | Yes |
 | `count()` | Does not terminate | `long` | Yes |
 | `findAny()` <br/> `findFirst()` | Terminates | `Optional<T>` | No |
@@ -289,13 +290,13 @@ The count method determines the number of elements in a finite stream. The metho
 
 The method signature is:
 
-```
+```java
 long count()
 ```
 
 An example usage is:
 
-```
+```java
 Stream<String> s = Stream.of("monkey", "gorilla", "bonobo");
 System.out.println(s.count());    // 3
 ```
@@ -306,14 +307,14 @@ The *min()* and *max()* methods allow a customer comparator to be given that wil
 
 The method signatures are:
 
-```
+```java
 Optional<T> min(<? super T> comparator);
 Optional<T> max(<? super T> comparator);
 ```
 
 An example where it finds the animal with the fewest letters in its name:
 
-```
+```java
 Stream<String> s = Stream.of("monkey", "ape", "bonobo");
 Optional<String> min = s.min((s1, s2) -> s1.length() - s2.length());
 min.ifPresent(System.out.println);    // ape
@@ -325,14 +326,14 @@ min.ifPresent(System.out.println);    // ape
 
 The method signatures are:
 
-```
+```java
 Optional<T> findAny();
 Optional<T> findFirst();
 ```
 
 This example finds an animal:
 
-```
+```java
 Stream<String> s = Stream.of("monkey", "ape", "bonobo");
 Stream<String> infinite = Stream.generate(() -> "chimp");
 
@@ -346,7 +347,7 @@ The *allMatch()*, *anyMatch()* and *noneMatch()* methods search a stream and ret
 
 The method signatures are:
 
-```
+```java
 boolean allMatch(Predicate <? super T> predicate);
 boolean anyMatch(Predicate <? super T> predicate);
 boolean noneMatch(Predicate <? super T> predicate);
@@ -354,7 +355,7 @@ boolean noneMatch(Predicate <? super T> predicate);
 
 This example checks whether an animal names begin with letters:
 
-```
+```java
 Stream<String> s = Stream.of("monkey", "123", "bonobo");
 Stream<String> infinite = Stream.generate(() -> "chimp");
 Predicate<String> pred = x -> Character.isLetter(x.chartAt(0));
@@ -367,20 +368,20 @@ System.out.println(infinite.anyMatch(pred));     // true
 System.out.println(infinite.allMatch(pred));     // hangs
 System.out.println(infinite.nonMatch(pred));     // hangs
 ```
- 
+
 #### *forEach()*
 
 The *forEach()* method does not terminate an infinite stream, and since there is no reduction there is no return type. 
- 
+
 The method signature is:
 
-```
+```java
 void forEach(Consumer<? super T> action);
 ```
 
 This example prints all elements within a stream:
 
-```
+```java
 Stream<String> s = Stream.of("Monkey", "Gorilla", "Bonobo");
 s.forEach(System.out::print);  // MonkeyGorillaBonobo
 ```
@@ -389,7 +390,7 @@ s.forEach(System.out::print);  // MonkeyGorillaBonobo
 
 The *reduce()* method combines a stream into a single object. As you can tell from the name, it is a reduction. The method signatures are: 
 
-```
+```java
 T reduce(T identity, BinaryOperator<T> accumulator);
 Optional<T> reduce(BinaryOperator<T> accumulator);
 <U> U reduce(U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner);
@@ -397,7 +398,7 @@ Optional<T> reduce(BinaryOperator<T> accumulator);
 
 The most common way of performing a reduction is to take an initial value, and keep merging it with the next value, for example:
 
-```
+```java
 Stream<String> s = Stream.of("w", "o", "l", "f");
 BinaryOperator<String> op = (str, c) -> str + c;
 String word = s.reduce("", op);
@@ -406,7 +407,7 @@ System.out.println(word);  // wolf
 
 In most cases, the initial value is not required, when omitting it the reduce method returns an optional, for example
 
-```
+```java
 Stream<String> s = Stream.of("w", "o", "l", "f");
 BinaryOperator<String> op = (str, c) -> str + c;
 Optional<String> word = s.reduce(op);
@@ -415,7 +416,7 @@ word.ifPresent(System.out::println);  // wolf
 
 The third method is used when we are processing parallel streams (although can work on non-parallel streams as well).
 
-```
+```java
 Stream<Integer> s = Stream.of(3, 5, 6);
 BinaryOperator<Integer> op = (a, b) -> a * b;
 Integer result = s.reduce(1, op, op);
@@ -424,16 +425,16 @@ System.out.println(result);  // 90
 
 #### *collect()*
 
-The *collect()* methodis a special type of reduction called *mutable reduction*, and is designed to get data out of streams and into another form, such as ArrayLists or Strings. The method signatures are as follows:
+The *collect()* method is a special type of reduction called *mutable reduction*, and is designed to get data out of streams and into another form, such as `ArrayList` or `String`. The method signatures are as follows:
 
-```
+```java
 <R> R collect(Supplier<R> supplier, BiConsumer<R,? super T> accumulator, BiConsumer<R,R> combiner)
 <R, A> R collect(Collector<? super T, A, R> collector)
 ```
 
 Let's start with the first signature, which is used when we want to code specifically how collecting should work.
 
-```
+```java
 Stream<String> s = Stream.of("w", "o", "l", "f");
 TreeSet<String> set = s.collect(TreeSet::new, TreeSet::add, TreeSet::addAll);
 System.out.println(set);  // [f, l, o, w]
@@ -449,13 +450,13 @@ Unlike a terminal operation, intermediate operations deal with infinite streams 
 
 The *filter()* method returns a `Stream` with elements that match a given expression. The method signature is as follows:
 
-```
+```java
 Stream<T> filter(Predicate<? super T> predicate)
 ```
 
 This example filters all elements that begin with the letter **m**:
 
-```
+```java
 Stream<String> s = Stream.of("monkey", "gorilla", "bonobo");
 s.filter(x -> x.startsWith("m")).forEach(System.out::println);   // monkey
 ```
@@ -464,13 +465,13 @@ s.filter(x -> x.startsWith("m")).forEach(System.out::println);   // monkey
 
 The *distinct()* method returns a `Stream` with duplicate elements removed. Java calls the `equals()` method of each element to determine whether the objects are the same. The method signature is as follows:
 
-```
+```java
 Stream<T> distinct()
 ```
 
 This example removes all duplicate elements:
 
-```
+```java
 Stream<String> s = Stream.of("monkey", "gorilla", "monkey", "monkey", "bonobo");
 s.distinct().forEach(System.out::println);   // monkey, gorilla, bonobo
 ```
@@ -479,14 +480,14 @@ s.distinct().forEach(System.out::println);   // monkey, gorilla, bonobo
 
 The *limit()* and *skip()* methods make a stream smaller. The method signatures are as follows:
 
-```
+```java
 Stream<T> limit(int maxSize)
 Stream<T> skip(int n)
 ```
 
 This example shows that elements 1-5 are skipped, and then limits the elements after the skip:
 
-```
+```java
 Stream<Integer> s = Stream.iterate(1, n -> n + 1);
 s.skip(5).limit(2).forEach(System.out::println);   // 6, 7
 ```
@@ -495,13 +496,13 @@ s.skip(5).limit(2).forEach(System.out::println);   // 6, 7
 
 The *map()* method creates a one-to-one mapping from the elements in the stream to the elements of the next step in the stream. In other words, it is transforming data. The method signature is as follows:
 
-```
+```java
 <R> Stream<R> map(Function<? super T, ? extends R> mapper)
 ```
 
 This example converts a list of String objects into a list of Integers representing their lengths:
 
-```
+```java
 Stream<String> s = Stream.of("monkey", "gorilla", "bonobo");
 s.map(String::length).forEach(System.out::println);   // 6, 7, 6
 ```
@@ -510,12 +511,12 @@ s.map(String::length).forEach(System.out::println);   // 6, 7, 6
 
 The *flatMap()* method takes each element in the stream and makes any elements it contains top-level elements in a single stream. This method is useful for when you need to flatten multiple lists into a single list. The method signature is as follows:
 
-```
+```java
 <R> Stream<R> flatMap(Function<? super T,? extends Stream<? extends R>> mapper)
 ```
 This example converts a Stream of Lists of String objects into a Stream of String objects:
 
-```
+```java
 List<String> zero = Arrays.asList();
 List<String> one = Arrays.asList("Bonobo");
 List<String> two = Arrays.asList("Mama Gorilla", "Baby Gorilla");
@@ -530,14 +531,14 @@ animals.flatMap(l -> l.stream()).forEach(System.out::println);   // Bonobo, Mama
 
 The *sorted()* method returns a stream with the elements sorted. Java will use natural sorting, unless a comparator is supplied. The method signature is as follows:
 
-```
+```java
 Stream<T> sorted()
 Stream<T> sorted(Comparator<? super T> comparator)
 ```
 
 These examples show sorting with the natural comparator or a custom implementation:
 
-```
+```java
 Stream<String> s1 = Stream.of("brown", "red", "blue");
 s1.sorted().forEach(System.out::println);   // blue, brown, red
 
@@ -549,13 +550,13 @@ s2.sorted(Comparator.reverseOrder()).forEach(System.out::println);   // red, bro
 
 The *peek()* method allow us to perform a stream operation without actually changing the stream. The method signature is as follows:
 
-```
+```java
 Stream<T> peek(Consumer<? super T> action)
 ```
 
 The most common use for `peek()` is to output the contents of the stream as it goes by, for example:
 
-```
+```java
 Stream<String> s = Stream.of("brown", "red", "blue");
 long count = s.filter(c -> c.startsWith("r")).peek(System.out::println).count();  // red
 System.out.println(count);  // 1
@@ -571,7 +572,7 @@ Here are the three types of primitives streams:
 
 The methods for creating an empty stream or from the factory method `of()` exist upon the primitive streams, but two additional methods have been added for creating infinite streams:
 
-```
+```java
 DoubleStream random = DoubleStream.generate(Math::random);
 random.limit(3).forEach(System.out::println); // prints 3 random doubles
 
@@ -581,7 +582,7 @@ fractions.limit(3).forEach(System.out::println); // 0.5, 0.25, 0.125
 
 It is also common to generate ranges of numbers, to which Java has provided the `range` and `rangeClosed` methods, as shown below:
 
-```
+```java
 IntStream range = IntStream.range(1, 6);
 range.forEach(System.out::println);   // 1, 2, 3, 4, 5
 
@@ -593,7 +594,7 @@ rangeClosed.forEach(System.out::println); // 1, 2, 3, 4, 5
 
 Primitives cannot be used with the `Optional` class,as it only supports Objects. In order to get around this problem, Java invented the Optional Primitive class, as shown below:
 
-```
+```java
 IntStream stream = IntStream.rangeClosed(1, 10);
 OptionalDouble optional = stream.average();
 
@@ -610,4 +611,235 @@ The table below outlines the optional types for primitives, and their methods:
 | return type of `max()` | `OptionalDouble` | `OptionalInt` | `OptionalLong` |
 | return type of `sum()` | `double` | `int` | `Long` |
 | return type of `average()` | `OptionalDouble` | `OptionalDouble` | `OptionalDouble` |
+
+#### Summarizing Statistics
+
+As methods such as `max()` and `min()` are terminating methods, and a stream cannot be reused once terminated, Java introducted the `SummaryStatistics` for each primitive stream, e.g. `IntSummaryStatistics`, `DoubleSummaryStatistics`, `FloatSummaryStatistics`. Calling the `summaryStatistics()` method will close the stream. 
+
+```java
+IntStream stream = IntStream.rangeClosed(1, 50);
+IntSummaryStatistics statistics = stream.summaryStatistics();
+
+System.out.println(statistics.getMax());    // prints 50
+System.out.println(statistics.getMin());    // prints 1
+System.out.println(statistics.getSum());    // print 1275
+System.out.println(statistics.getCount());  // prints 50
+```
+
+### Functional Interfaces for Primitives
+
+### *boolean*
+
+The `BooleanSupplier` is a seperate type, as it only requires one method to implement, as shown below:
+
+```java
+boolean getAsBoolean()
+```
+
+It can be used in the following ways:
+
+```java
+BooleanSupplier b1 = () -> true;
+
+System.out.printlnr(b1.getAsBoolean);  // prints true
+```
+
+### *double*, *int* and *long*
+
+Most of the functional interfaces are for double, int and long to match the streams and optionals that have been useing for primitives. The table below outlines the methods for each of the functional interfaces for each type. This table is similar to the [Built-In Functional Interfaces](#funcInterfaces), but returns primitives rather than objects.
+
+| Functional Interfaces                                        | # Parameters                                             | Return Type                     | Single Abstract Method                               |
+| ------------------------------------------------------------ | -------------------------------------------------------- | ------------------------------- | ---------------------------------------------------- |
+| `DoubleSupplier`<br />`IntSuppler`<br />`LongSupplier`       | 0                                                        | `double`<br />`int`<br />`long` | `getAsdouble`<br />`getAsInt`<br />`getAsLong`       |
+| `DoubleConsumer`<br />`IntConsumer`<br />`LongConsumer`      | 1 (`double`)<br />1 (`int`)<br />1 (`long`)                    | `void`                          | `accept`                                             |
+| `DoublePredicate`<br />`IntPredicate`<br />`LongPredicate`   | 1 (`double`)<br />1 (`int`)<br />1 (`long`)                    | `boolean`                       | `test`                                               |
+| `DoubleFunction<R>`<br />`IntFunction<R>`<br />`LongFunction<R>` | 1 (`double`)<br />1 (`int`)<br />1 (`long`)                    | `R`                             | `apply`                                              |
+| `DoubleUnaryOperator`<br />`IntUnaryOperator`<br />`LongUnaryOperator` | 1 (`double`)<br />1 (`int`)<br />1 (`long`)                    | `double`<br />`int`<br />`long` | `applyAsdouble`<br />`applyAsInt`<br />`applyAsLong` |
+| `DoubleBinaryOperator`<br />`IntBinaryOperator`<br />`LongBinaryOperator` | 2 (`double`, `double`)<br />2 (`int`, `int`)<br />2 (`long`, `long`) | `double`<br />`int`<br />`long` | `applyAsdouble`<br />`applyAsInt`<br />`applyAsLong` |
+
+Note: `BiConsumer`, `BiPredicate`, `BiFunction` are not included in the above table, as it is uncommon to perform an operation using two differnent predicates.
+
+| Functional Interfaces                                        | # Parameters                                                 | Return Type                                                  | Single Abstract Method                                       |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| `ToDoubleFunction<T>`<br />`ToIntFunction<T>`<br />`ToLongFunction`<T> | 1 (`T`)                                                      | `double`<br />`int`<br />`long`                              | `applyAsDouble`<br />`applyAsInt`<br />`applyAsLong`         |
+| `ToDoubleBiFunction<T, U>`<br />`ToIntBiFunction<T, U>`<br />`ToLongBiFunction<T, U>` | 1 (`T`, `U`)                                                 | `double`<br />`int`<br />`long`                              | `applyAsDouble`<br />`applyAsInt`<br />`applyAsLong`         |
+| `DoubleToIntFunction`<br />`DoubleToLongFunction`<br />`IntToDoubleFunction`<br />`IntToLongFunction`<br />`LongToDoubleFunction`<br />`LongToIntFunction` | 1 (`double`)<br />1 (`double`)<br />1 (`int`)<br />1 (`int`)<br />1 (`long`)<br />1 (`long`) | `int`<br />`long`<br />`double`<br />`long`<br />`double`<br />`int` | `applyAsInt`<br />`applyAsLong`<br />`applyAsDouble`<br />`applyAsLong`<br />`applyAsDouble`<br />`applyAsInt` |
+| `ObjDoubleConsumer<T>`<br />`ObjIntConsumer<T>`<br />`ObjLongConsumer<T>` | 2 (`T`, `double`)<br/ >2 (`T`, `int`)<br/ >2 (`T`, `long`)<br/ > | `void`                                                       | `accept`                                                     |
+
+### Working with Advanced Stream Pipeline Concepts
+
+#### Linking Streams to the Underlying Data
+
+Remember, streams are lazily evaludated, meaning they are not used util a terminal operator is performed. The example below illustrates this:
+
+```java
+List<String> cats = new ArrayList<>();
+cats.add("Annie");
+cats.add("Ripley");
+
+Stream<String> stream = cats.stream();
+cats.add("KC");
+
+System.out.println(stream.count());  // prints 3
+```
+
+#### Chaining Optionals
+
+Optionals can be chained just like streams, with the advantage being that these are much shorter and more expressive than with traditional `if` statements. The example below uses the `flatMap` method to flatten an `Optional<Optional<Integer>>` into an `Optional<Integer>`.
+
+```java
+// Static method can be found within the App class
+public static Optional<Integer> calculator(String str) {
+    return Optional.of(str)
+        .filter(s -> s.length() == 3)
+        .map(String::length);
+}
+
+Optional<Integer> r1 = Optional.of(123)
+    .map(String::valueOf)
+    .flatMap(App::calculator);
+
+Optional<Integer> r2 = Optional.of(1)
+    .map(String::valueOf)
+    .flatMap(App::calculator);
+
+r1.ifPresent(System.out::println);  // prints 3
+r2.ifPresent(System.out::println);  // prints nothing (no result)
+```
+
+#### Collecting Results
+
+| Collector                                                    | Description                                                  | Return Value when Passed to `collect`                        |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| `averagingDouble(ToDoubleFunction f)`<br />`averagingInt(ToIntFunction f)`<br />`averagingLong(ToLongFunction f)` | Calculates the average for our three core primitive types    | `Double`                                                     |
+| `counting()`                                                 | Counts the number of elements                                | `Long`                                                       |
+| `groupingBy(Function f)`<br />`groupingBy(Function f, Collector dc)`<br />`groupingBy(Function f, Supplier s, Collector dc)` | Creates a map grouping by the specified function with the optional type and optional downstream collector | `Map<K, List<T>>`                                            |
+| `joining()`<br />`joining(CharSequence cs)`                  | Creates a single `String` using `cs` as a dlimiter between elements if one is specified | `String`                                                     |
+| `maxBy(Comparator c)`<br />`minBy(Comparator c)`             | Finds the largest/smallest elements                          | `Optional<T>`                                                |
+| `mapping(Function f, Collector dc)`                          | Adds another level of collectors                             | `Collector`                                                  |
+| `partitioningBy(Predicate p)`<br />`partitioningBy(Predicate p, Collector dc)` | Creates a map grouping by the specified predicate with the optional further downstream collector | `Map<Boolean, List<T>`                                       |
+| `summarizingDouble(ToDoubleFunction f)`<br />`summarizingInt(ToIntFunction f)`<br />`summarizingLong(ToLongFunction f)` | Calculate average, min, max and so on (i.e. it creates the a `SummaryStatistics`) | `DoubleSummaryStatistics`<br />`IntSummaryStatistics`<br />`LongSummaryStatistics` |
+| `summingDouble(ToDoubleFunction f)`<br />`summingInt(ToIntFunction f)`<br />`summingLong(ToLongFunction f)` | Calculates the sum for our three core primitive types        | `Double`<br />`Integer`<br />`Long`                          |
+| `toList()`<br />`toSet()`                                    | Creates an arbitrary type of list or set                     | `List`<br />`Set`                                            |
+| `toCollection(Supplier s)`                                   | Creates a `Collection` of the specified type                 | `Collection`                                                 |
+| `toMap(Function k, Function v)`<br />`toMap(Function k, Function v, BinaryOperator m)`<br />`toMap(Function k, Function v, BinaryOperator m, Supplier s)` | Creates a map user functions to map the keys, values an optional merge function, and an optional type | `Map`                                                        |
+
+##### Collecting using Basic Collectors
+
+Many of the above collectors work the same, below are a few examples.
+
+```java
+Stream<String> animals = Stream.of("lions", "tigers", "bears");
+String result = animals.collect(Collectors.joining(", "));
+System.out.println(result);  // prints lions, tigers, bears
+```
+
+The following example prints the average length of the animal names:
+
+```java
+Stream<String> animals = Stream.of("lions", "tigers", "bears");
+Double result = animals.collect(Collectors.averagingInt(String::length));
+System.out.println(result);  // prints 5.333333333333333
+```
+
+##### Collecting into Maps
+
+Collector code involving maps can be complex, and can get long quickly.
+
+```java
+Stream<String> animals = Stream.of("lions", "tigers", "bears");
+Map<String, Integer> result = animals.collect(Collectors.toMap(k -> k, String::length));
+System.out.println(result);  // prints {lions=5, bears=5, tigers=6}
+```
+
+Now lets map the length of the animal name to the animal. This will requre a mere function, as two animal names may have the same length.
+
+```java
+Stream<String> animals = Stream.of("lions", "tigers", "bears");
+Map<Integer, String> result = animals.collect(
+    Collectors.toMap(String::length, k -> k, (s1, s2) -> s1 + ", " + s2)
+);
+System.out.println(result);             // prints {5=lions, bears, 6=tigers}
+System.out.println(result.getClass());  // prints java.util.HashMap
+```
+
+By default `HashMap` are returned from the `Collectors.toMap()` function. To use an alternative Map, such as a `TreeMap`, we would need to add a constructor reference map:
+
+```java
+Stream<String> animals = Stream.of("lions", "tigers", "bears");
+Map<Integer, String> result = animals.collect(
+    Collectors.toMap(String::length, k -> k, (s1, s2) -> s1 + ", " + s2, TreeMap::new)
+);
+System.out.println(result);             // prints {5=lions, bears, 6=tigers}
+System.out.println(result.getClass());  // prints java.util.TreeMap
+```
+
+##### Collecting Using Grouping, Partitioning, and Mapping
+
+Suppose we want to get a group of names by their length, we can achieve this using the `groupingBy` method, as shown below:
+
+```java
+Stream<String> animals = Stream.of("lions", "tigers", "bears");
+Map<Integer, List<String>> result = animals.collect(
+    Collectors.groupingBy(String::length)
+);
+System.out.println(result);  // prints {5=[lions, bears], 6=[tigers]}
+```
+
+The `groupingBy` collector tell collect that it should group all of the elemnts of the stream into lists, organising them by the function provided. Suppose we require a `Set` rather than a `List`, this isn't a problem as we would need to pass a *downtream collector*, as shown below:
+
+```java
+Stream<String> animals = Stream.of("lions", "lions", "tigers", "bears");
+Map<Integer, Set<String>> result = animals.collect(
+    Collectors.groupingBy(String::length, Collectors.toSet())
+);
+System.out.println(result);  // prints {5=[lions, bears], 6=[tigers]}
+```
+
+We can also output to a `TreeMap`, for example:
+
+```java
+Stream<String> animals = Stream.of("lions", "tigers", "bears");
+TreeMap<Integer, List<String>> result = animals.collect(
+    Collectors.groupingBy(String::length, TreeMap::new, Collectors.toList())
+);
+System.out.println(result);  // prints {5=[lions, bears], 6=[tigers]}
+```
+
+*Partioning* is a special type of grouping, to which there are only two possible groups - true and false - and is like splitting a list into two parts. Suppose we are making a sign to put outside each animal's exhibit. We have two sizes of signs, one can accommodate names with five or fewer characters, and the other for longer names. We can partition the list according to which sign is needed:
+
+```java
+Stream<String> animals = Stream.of("lions", "tigers", "bears");
+Map<Boolean, List<String>> result = animals.collect(
+    Collectors.partitioningBy((name) -> name.length() <= 5)
+);
+System.out.println(result);  // prints {true=[lions, bears], false=[tigers]}
+```
+
+The result will always contain a `true` and `false` key regards of whether or not the value has been populated, (e.g. incase of an empty resultset). As with `groupingBy()`, the value type can be changed, for example:
+
+```java
+Stream<String> animals = Stream.of("lions", "tigers", "bears");
+Map<Boolean, Set<String>> result = animals.collect(
+    Collectors.partitioningBy((name) -> name.length() <= 7, Collectors.toSet())
+);
+System.out.println(result);  // prints {true=[lions, bears, tigers], false=[]}
+```
+
+In this example the code is grouping all elements by their length (for the key), and selects the first character of each of the values and orders them naturally, selecting the minimum character (or in this case the one closest to the letter a).
+
+```java
+// Can't put this inline due to a Java bug
+// See: https://coderanch.com/t/661352/certification/min-doesn-compile-Sybex
+Comparator<Character> comparator = Comparator.naturalOrder();
+
+Stream<String> animals = Stream.of("lions", "tigers", "bears");
+Map<Integer, Optional<Character>> result = animals.collect(
+    Collectors.groupingBy(
+        String::length,
+        Collectors.mapping(s -> s.charAt(0), Collectors.minBy(comparator))
+    )
+);
+System.out.println(result);  // prints {5=Optional[b], 6=Optional[t]}
+```
 
