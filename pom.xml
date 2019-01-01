@@ -26,8 +26,6 @@
         <module>chapter-8</module>
         <module>chapter-9</module>
         <module>chapter-10</module>
-        <module>chapter-11</module>
-        <module>chapter-12</module>
     </modules>
 
     <build>
