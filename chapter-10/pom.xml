@@ -17,4 +17,13 @@
   <version>1.0-SNAPSHOT</version>
   <name>Chapter 10</name>
 
+  <!-- project dependencies -->
+  <dependencies>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <version>1.4.197</version>
+    </dependency>
+  </dependencies>
+
 </project>
