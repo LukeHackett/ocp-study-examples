@@ -14,128 +14,147 @@
 - By default all interfaces with **only a single abstract** method are treated as a `functional interface` (any number of `default` methods maybe included, so long as they have a method body. 
 - The `@FunctionalInterface` annotation will force a compiler error when a violation of this rule occurs.
 
-		@FunctionalInterface 
-		public interface Sprint {
-			public void sprint(Animal animal);
-		}
+```java
+@FunctionalInterface 
+public interface Sprint {
+	public void sprint(Animal animal);
+}
 		
-		public class Tiger implements Sprint {
-			public void sprint(Animal animal) { 
-			    System.out.println("Animal is sprinting fast! " + animal.toString());
-			}
-		}
+public class Tiger implements Sprint {
+	public void sprint(Animal animal) { 
+		System.out.println("Animal is sprinting fast! " + animal.toString());
+	}
+}
+```
 
 ### Implementing Function Interfaces with Lambdas
 
-		public interface CheckEvenNumber {
-			public boolean test(int number);
-		}
-		
-		public class EvenNumberChecker {
-			public static void print(int number, CheckEvenNumber check) {
-				if (check.test(number))
-					System.out.println("Found an even number :: " + number);
-			}
-		
-			public static void main(String[] args) {
-				print(2, a -> a % 2 == 0);
-				print(13, a -> a % 2 == 0);
-			}
-		}
-		
+```java
+public interface CheckEvenNumber {
+    public boolean test(int number);
+}
+	
+public class EvenNumberChecker {
+    public static void print(int number, CheckEvenNumber check) {
+        if (check.test(number))
+            System.out.println("Found an even number :: " + number);
+    }
+    
+    public static void main(String[] args) {
+        print(2, a -> a % 2 == 0);
+        print(13, a -> a % 2 == 0);
+    }
+}
+```
+
 #### Lambda Syntax Rules
 - A lambda must have zero or more parameters, an arrow, and a body.
-- The parameter must be enclosed with braces if the lambda is a no-args method, has more than 1 parameter or if there are parameter types present.
-- The method body may not have braces, unless it is has more than one line of code.
-- When the method body is encapsulated with braces, then a terminating `;` must be present, as well as a `return` statement if required (`return` is not required when a single line, or is a void method). 
 
-		a -> a.canHop()
-		(Animal a) -> a.canHop()
-		
-		a -> { return a.canHop();}
-		(Animal a) -> { return a.canHop(); }
-		
-		() -> new Duck()
-		() -> { return new Duck(); }
-		
-		(Animal a, Duck d) -> d.quack()
-		(Animal a, Duck d) -> { d.quack(); }
-		
+- The parameter must be enclosed with braces if the lambda is a no-args method, has more than 1 parameter or if there are parameter types present.
+
+- The method body may not have braces, unless it is has more than one line of code.
+
+- When the method body is encapsulated with braces, then a terminating `;` must be present, as well as a `return` statement if required (`return` is not required when a single line, or is a void method). ​	
+
+   ```java
+   a -> a.canHop()
+   (Animal a) -> a.canHop()
+   
+   a -> { return a.canHop();}
+   (Animal a) -> { return a.canHop(); }
+   
+   () -> new Duck()
+   () -> { return new Duck(); }
+   
+   (Animal a, Duck d) -> d.quack()
+   (Animal a, Duck d) -> { d.quack(); }
+   ```
+
 - In addition to the above rules, re-declaring a local variable within a lambda is not permitted, but creating a new variable is allowed, for example:
 
-		(a, b) -> { int a = 0; return 5; }    // Does not compile
-		(a, b) -> { int c = 0; return 5; }    // Does compile
+    ```java
+    (a, b) -> { int a = 0; return 5; }    // Does not compile
+    (a, b) -> { int c = 0; return 5; }    // Does compile
+    ```
 
 #### Predicate Interface
 - Java provides a common functional interface `Predicate<T>` that can be used to perform simple tests:
 
-		package java.util.function;
-		
-		public interface Predicate<T> {
-			public boolean test(T t);
-		}
+   ```java
+   package java.util.function;
+   
+   public interface Predicate<T> {
+   	public boolean test(T t);
+   }
+   ```
 
 - Hence the earlier example, could be re-written using the Predicate interface:
-	
-		public class EvenNumberChecker {
-			public static void print(int number, Predicate<Boolean> check) {
-				if (check.test(number))
-					System.out.println("Found an even number :: " + number);
-			}
-		
-			public static void main(String[] args) {
-				print(2, a -> a % 2 == 0);
-				print(13, a -> a % 2 == 0);
-			}
-		}
+
+	```java
+  public class EvenNumberChecker {
+      public static void print(int number, Predicate<Boolean> check) {
+          if (check.test(number))
+              System.out.println("Found an even number :: " + number);
+      }
+   	
+      public static void main(String[] args) {
+          print(2, a -> a % 2 == 0);
+          print(13, a -> a % 2 == 0);
+      }
+  }
+	```
 
 ## Polymorphism
 - *Polymorphism* is the ability of a single interface to support multiple underlying forms.
 
-		public interface LivesInOcean { public void speak(); }
+	```java
+	public interface LivesInOcean { public void speak(); }
 
-		public class Dolphin implements LivesInOcean { 
-			public int age = 10;
-			public void speak() { System.out.println("whistle"); }
-		}
+	public class Dolphin implements LivesInOcean { 
+	    public int age = 10;
+	    public void speak() { System.out.println("whistle"); }
+	}
 		
-		public class Whale implements LivesInOcean { 
-			public void speak() { System.out.println("sing"); }
-		}
+	public class Whale implements LivesInOcean { 
+	    public void speak() { System.out.println("sing"); }
+	}
 		
-		public class Oceanographer {
-			public void checkSound(LivesInOcean animal) {
-				animal.speak();
-			}
+	public class Oceanographer {
+	    public void checkSound(LivesInOcean animal) {
+	        animal.speak();
+	    }
 			
-			public static void main(String args[]) {
-				Oceanographer o = new Oceanographer();
-				o.checkSound(new Dolphin());    // Prints whistle
-				o.checkSound(new Whale());      // Prints sing
-			}
-		}
+	    public static void main(String args[]) {
+	        Oceanographer o = new Oceanographer();
+	        o.checkSound(new Dolphin());    // Prints whistle
+	        o.checkSound(new Whale());      // Prints sing
+	    }
+	}
+	```
 
 - Another Example:
 
-		Dolphin d = new Dolphin();
-		System.out.println(d.age);            // prints 10
+	```java
+	Dolphin d = new Dolphin();
+	System.out.println(d.age);            // prints 10
 
-		LivesInOcean animal  = d;
-		System.out.println(animal.speak());   // prints whistle
-
-		System.out.println(animal.age);   // Does Not Compile (requires a cast to Dolphin)
+	LivesInOcean animal = d;
+	System.out.println(animal.speak());   // prints whistle
+		
+	System.out.println(animal.age);       // DOES NOT COMPILE (requires a cast to Dolphin)
+	```
 
 - In this example only one object is created (count the number of `new` calls)
 - The ability of the `Dolphin` object to be passed as an instance of an interface it implements, `LivesInOcean` (as well as a class it might extend) is the nature of polymorphism
-		
 
 ### Distingushing between an Object and a Reference
 
 - All java objects extend `java.lang.Object`, and therefore can be assigned to `java.lang.Object`, as shown below:
 
-		Dolphin dolphin = new Dolphin();
-		
-		Object obj = dolphin;
+  ```java
+  Dolphin dolphin = new Dolphin();
+  Object obj = dolphin;
+  ```
 
 - Even though the object has been assigned a reference with a different type, the underlying object itself has not changed, and still exists as a `Dolphin` object.
 - To access `Dolphin` properties or methods using the `obj` variable, would require a cast to `Dolphin`.
@@ -148,35 +167,39 @@
 ### Casting Object References
 
 - There are four basic rules to keep in mind when casting variables:
-	1. Casting an object from a subclass to a superclass doesn't require an explicit class
-	
-			Dolphin dolphin = new Dolphin();
-			LivesInOcean dolphin1 = (LivesInOcean) dolphin;  // Explicit cast not required
+  1. Casting an object from a subclass to a superclass doesn't require an explicit class
+      ```java
+      Dolphin dolphin = new Dolphin();
+      LivesInOcean dolphin1 = (LivesInOcean) dolphin;  // Explicit cast not required
+      ```
 
-	2. Casting an object from a superclass to a subclass requires an explicit class
-	
-			LivesInOcean dolphin = new Dolphin();
-			Dolphin dolphin1 = (Dolphin) dolphin;  // Explicit cast not required
+  2. Casting an object from a superclass to a subclass requires an explicit class
+      ```java
+      LivesInOcean dolphin = new Dolphin();
+      Dolphin dolphin1 = (Dolphin) dolphin;  // Explicit cast not required
+      ```
 
-	3. The compiler will not allow casts to unrelated types
-	
-			LivesInOcean dolphin = new Dolphin();
-			LivesOnLand obj = dolphin;   // Does Not Compile
+  3. The compiler will not allow casts to unrelated types
+      ```java
+      LivesInOcean dolphin = new Dolphin();
+      LivesOnLand obj = dolphin;   // Does Not Compile
+      ```
 
-	4. Even when the code compiles without issue, an exception may be thrown at runtime if the object being cast is not actually an instance of that class.
+  4. Even when the code compiles without issue, an exception may be thrown at runtime if the object being cast is not actually an instance of that class.
+        ```java
+        LivesInOcean whale = new Whale();
 
-			LivesInOcean whale = new Whale();
-			
-			// Compiles, but throws a ClassCastException at runtime
-			// since the object is a Whale and not a Dolphin.
-			Dolphin dolphin = whale; 
-
+        // Compiles, but throws a ClassCastException at runtime
+        // since the object is a Whale and not a Dolphin.
+        Dolphin dolphin = whale; 
+        ```
 - The use of the `instanceof` operator can prevent `ClassCastExceptions`, for example:
+  ```java
+  if (whale instance of Dolphin) {
+      Dolphin dolphin = whale;
+  }			
+  ```
 
-		if (whale instance of Dolphin) {
-			Dolphin dolphin = whale;
-		}			
-		
 ## Understanding Design Principles
 
 ### Encapsulation
@@ -206,18 +229,18 @@
 
 - We refer to the *has-a relationship* as the property of an object having a named data object or primitive as a member.
 - This test is also known as the object composition test.
-
-		class Bird {
-			public Beak beak;
-			public Foot rightFoot;
-			public Foot leftFoot;	
-		}
+	```java
+	class Bird {
+	    public Beak beak;
+	    public Foot rightFoot;
+	    public Foot leftFoot;	
+	}
 		
-		class Beak {
-			public String colour;
-			public double Length;
-		}
-		
+	class Beak {
+	    public String colour;
+	    public double Length;
+	}
+	```
 - In this example, `Bird` and `Beak` fail the is-a test, as they are not related, but they do pass the has-a test, as `Bird` has-a `Beak`.
 - Any child of Bird must also have a `Beak`.
 - More generally if a parent has-a object as `protected` or `public` member, then any child of the parent must also have that object as a member.
@@ -227,22 +250,24 @@
 
 - We refer to *object composition* as the property of constructing a class using references to other classes in order to reuse the functionality of the other classes, for example:
 
-		class Bird {
-			public Beak beak = new Beak();
-						
-			public void peck() {
-				this.beak.peck();
-			}
-		}
-
-		class Beak {
-			public String colour;
-			public double Length;
+```java
+class Bird {
+    public Beak beak = new Beak();
+    
+    public void peck() {
+        this.beak.peck();
+    }
+}
+		
+class Beak {
+    public String colour;
+    public double Length;
 			
-			public void peck() {
-				System.out.println("Pecking!");
-			}
-		}
+    public void peck() {
+        System.out.println("Pecking!");
+    }
+}
+```
 
 - In this example the `beak` class can be reused in classes completely unrelated to a `Bird` class.
 
@@ -265,21 +290,23 @@
 - Instantiation of the singleton can be done directly in the definition of the instance reference, or it can be done through a `static` initialisation block when the class is loaded.
 - Alternatively, we can delay creation of the instance until the first time the `getInstance()` method is called:
 
-		public class VistorTicketTracker {
-			private static VisitorTicketTracker;
+	```java
+	public class VistorTicketTracker {
+	    private static VisitorTicketTracker;
+	    
+	    private VistorTicketTracker() { }
 			
-			private VistorTicketTracker() { }
-			
-			public static VistorTicketTracker getInstance() {
-				if (instance == null) {
-					instance = new VisitorTicketTracker();  // Not Thread Safe!
-				}
+	    public static VistorTicketTracker getInstance() {
+	        if (instance == null) {
+	            instance = new VisitorTicketTracker();  // Not Thread Safe!
+	        }
 				
-				return instance;
-			}
+	        return instance;
+	    }
 			
-			// Data Access Methods
-		}
+	    // Data Access Methods
+	}
+	```
 
 - This creates a reusable object the first time it is requested, and is known as *lazy instantiation*.
 - Lazy instantiation reduces memory usage and improves performance when an application starts up
@@ -290,22 +317,23 @@
 - The *lazy instantiation* implementation is not considered thread-safe as two threads could call `getInstance()` at the same time, resulting in two objects being created.
 - *Thread safety* is the property of an object that guarantees safe execution by multiple threads at the same time, a simple solution to the thread safety issue would be:
 
+    ```java
+    public class VistorTicketTracker {
+        private static VisitorTicketTracker;
 
-		public class VistorTicketTracker {
-			private static VisitorTicketTracker;
-			
-			private VistorTicketTracker() { }
-			
-			public static synchronized VistorTicketTracker getInstance() {
-				if (instance == null) {
-					instance = new VisitorTicketTracker();  // Not Thread Safe!
-				}
-				
-				return instance;
-			}
-			
-			// Data Access Methods
-		}
+        private VistorTicketTracker() { }
+
+        public static synchronized VistorTicketTracker getInstance() {
+            if (instance == null) {
+                instance = new VisitorTicketTracker();  // Not Thread Safe!
+            }
+
+            return instance;
+        }
+
+        // Data Access Methods
+    }
+    ```
 
 ### Creating Immutable Objects
 
@@ -319,31 +347,33 @@
 
 An example Immutable object implementation:
 
-		public final class Animal {
-			private List<string favouriteFoods;
+```java
+public final class Animal {
+    private List<string favouriteFoods;
+		
+    public Animal(List<String> favouriteFoods) {
+        if (favouriteFoods == null) {
+            throw new RuntimeException("Favourite Foods is required");
+        }
 			
-			public Animal(List<String> favouriteFoods) {
-				if (favouriteFoods == null) {
-					throw new RuntimeException("Favourite Foods is required");
-				}
-				
-				// Take a new copy of the list, as the caller will have access to the 
-				// original list, thus preventing altering list from outside this class.
-				this.favouriteFoods = new ArrayList<String>(favouriteFoods);
-			}
-			
-			// This method makes the class mutable, as modifiying the list - such as
-			// .remove(), .clear() - will alter the underlying list.
-			public List<String> getFavouriteFoods_Mutable() {
-				return this.favouriteFoods;
-			}
-			
-			// This method always returns a clone of the list, thus ensuring that the
-			// underlying list held within this class is never altered.
-			public List<String> getFavouriteFoods_Immutable() {
-				return new ArrayList<String>(this.favouriteFoods);
-			}
-		}
+        // Take a new copy of the list, as the caller will have access to the 
+        // original list, thus preventing altering list from outside this class.
+        this.favouriteFoods = new ArrayList<String>(favouriteFoods);
+    }
+		
+    // This method makes the class mutable, as modifiying the list - such as
+    // .remove(), .clear() - will alter the underlying list.
+    public List<String> getFavouriteFoods_Mutable() {
+        return this.favouriteFoods;
+    }
+		
+    // This method always returns a clone of the list, thus ensuring that the
+    // underlying list held within this class is never altered.
+    public List<String> getFavouriteFoods_Immutable() {
+        return new ArrayList<String>(this.favouriteFoods);
+    }
+}
+```
 
 - Modifying an immutable object is not possible, but it is possible to create a new object, with the updated values.
 
@@ -353,12 +383,13 @@ An example Immutable object implementation:
 
 - The *builder pattern* is a creational pattern in which parameters are passed to a builder object, and an object is generated with a final `build` call.
 - It is often used with immutable objects, since immutable objects do not gave setter methods and must be created with all of their parameter set.
-- A builder may thrown an exception if required fields are not set, but may also choose to se default values.
+- A builder may thrown an exception if required fields are not set, but may also choose to set default values.
 
 
 ### Creating Objects with the Factory Pattern
 
-***Note**: The Factory Pattern is not on the exam, but is used through the exam.*
+***Note:** The Factory Pattern is not on the exam, but is used through the exam.*
 
 - The *factory pattern* is based on the idea of using a factory class to produce instance of object based on a set of input parameters.
 - It is similar to the builder pattern, although it is focused on supporting class polymorphism
+
