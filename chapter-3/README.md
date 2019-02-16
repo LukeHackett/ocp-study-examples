@@ -118,7 +118,7 @@ public class ShippableCrate interface Shippable {
 
 ### Generic Methods
 
-Generic methods can be used on `static` and `non-static` methods, and are often used on static methods since they aren't part of an instance that can declare the type.
+Generic methods can be used on `static` and `non-static` methods, and are often used on static methods since they aren't part of an instance that can declare the type. Before the return type, we declare the formal type of generic parameters.
 
 ```java
 public static <T> void sink() {  }
@@ -259,10 +259,10 @@ public static void addSound(List<? super String? list) {
 
 The *Java Collections Framework* is a set of classes in `java.util` for storing collections. There are four main interfaces in the Java Collections Framework:
 
-* `List:` A *list* is an ordered collection of elements that allows duplicate entries. Elements in a list can be access by an index.
-* `Set:` A *set* is an collection that does not allow duplicates.
-* `Queue:` A *queue* is a collection that orders it elements in a specific order for processing, e.g. first-in, first-out.
-* `Map:` A *map* is a collection that maps keys to values, with no duplicate keys allowed.
+* `List:` A *list* is an ordered collection of elements that allows duplicate entries. Elements in a list can be access by an index (`ArrayList`, `LinkedList`, `Vector`, `Stack`).
+* `Set:` A *set* is a collection that does not allow duplicates (`HashSet`, `TreeSet`).
+* `Queue:` A *queue* is a collection that orders it elements in a specific order for processing, e.g. first-in, first-out (`ArrayDeque`, as well as `LinkedList`). 
+* `Map:` A *map* is a collection that maps keys to values, with no duplicate keys allowed. (`HashMap`, `TreeMap`, `Hashtable`)
 
 
 ### Common Collections Methods
