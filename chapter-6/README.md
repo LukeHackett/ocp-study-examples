@@ -91,13 +91,13 @@ The method above may or may not throw an `SQLException` , to which the calling m
 ```java
 public static void main(String[] args) { 
     try {
-		Path path = Paths.get("dolphinsBorn.txt");
-		String text = new String(Files.readAllBytes(path)); 
+        Path path = Paths.get("dolphinsBorn.txt");
+        String text = new String(Files.readAllBytes(path)); 
         LocalDate date = LocalDate.parse(text); 
         System.out.println(date);
 	} catch (DateTimeParseException | IOException e) { 
         e.printStackTrace();
-		throw new RuntimeException(e);
+        throw new RuntimeException(e);
 	}
 }
 ```
@@ -113,21 +113,21 @@ catch(Exception1 e1 | Exception2 e2 | Exception3 e3)    // DOES NOT COMPILE
 
 ```java
 try {
-	throw new FileNotFoundException();
+    throw new FileNotFoundException();
 } catch(FileNotFoundException | IOException e) {   // DOES NOT COMPILE 
-	e.printStackTrace();
+    e.printStackTrace();
 }
 
 try {
-	throw new RuntimeException();
+    throw new RuntimeException();
 } catch(RuntimeException | IOException e) {   // DOES NOT COMPILE
-	e.printStackTrace();
+    e.printStackTrace();
 }
 
 try {
-	throw new IOException();
+    throw new IOException();
 } catch(RuntimeException | IOException | Exception e) {   // DOES NOT COMPILE
-	e.printStackTrace();
+    e.printStackTrace();
 }
 ```
 
@@ -139,7 +139,7 @@ try {
 ```java
 // Without the optional "catch" or "finally" blocks
 try (BufferedReader in = Files.newBufferedReader(path1);
-	BufferedWriter out = Files.newBufferedWriter(path2)) {
+     BufferedWriter out = Files.newBufferedWriter(path2)) {
 
 	out.write(in.readLine()); 
 }
