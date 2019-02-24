@@ -1,6 +1,4 @@
-# Chapter 5 - Working with Dates and Times
-
-All Date and Time classes within Java 8 reside within the `java.time.*` package, and will need to be imported inorder to access these classes.
+# Chapter 5 - Dates, Strings and Localisation
 
 ## Creating Dates and Times
 
@@ -10,6 +8,8 @@ Java 8 introduced four new classes when working with dates and times:
 - **LocalTime** contains just a time, neither the date or timezone information is stored. A good example of `LocalTime` would be midnight, as it always occurs at the same time every day.
 - **LocalDateTime** contains both a date and a time, but no timezone information is stored. A good example of `LocalDateTime` would be the stroke of midnight on New Year's Eve, as its special point in time that occurs no matter the time zone.
 - **ZonedDateTime** contains the date, time, and timezone. A good example of `ZonedDateTime` would be a conference call at 9:00 a.m. EST - someone wishing to join the call in the PST timezone would need to join at 6:00 a.m, as PST is three hours behind EST.
+
+All Date and Time classes within Java 8 reside within the `java.time.*` package, and will need to be imported in-order to access these classes.
 
 Obtaining the current date and time instances can be achieved using a static method:
 
@@ -93,10 +93,10 @@ It should also be noted that there is not a option to pass the `Month` enum.
 The constructors of `LocalDate`, `LocalTime`, `LocalDateTime` and `ZonedDateTime` are all private, which means direct instantiation is not possible. 
 
 ```java
-LocalDate d = new LocalDate();            // does not compile
-LocalTime d = new LocalTime();            // does not compile 
-LocalDateTime d = new LocalDateTime();    // does not compile
-ZonedDateTime d = new ZonedDateTime();    // does not compile
+LocalDate d = new LocalDate();             // does not compile
+LocalTime t = new LocalTime();             // does not compile 
+LocalDateTime dt = new LocalDateTime();    // does not compile
+ZonedDateTime zdt = new ZonedDateTime();   // does not compile
 ```
 
 In addition to this, when passing invalid numbers to the factory method, a runtime exception is thrown
@@ -104,7 +104,7 @@ In addition to this, when passing invalid numbers to the factory method, a runti
 ```java
 LocalDate.of(2018, 1, 32);                 // throws DateTimeException
 LocalDate.of(2018, -1, 20);                // throws DateTimeException
-LocalDate.of(2018, Month.FEBRUARY, 29);    // throws DateTimeException
+LocalDate.of(2018, Month.FEBRUARY, 29);    // throws DateTimeException (not a leap year)
 ```
 
 ## Manipulating Dates and Times
@@ -116,7 +116,7 @@ LocalDate date = LocalDate.of(2020, Month.JANUARY, 20);
 date.plusDays(10);
 System.out.println(date);  // prints 2020-01-20
 
-date.plusDays(10);
+date = date.plusDays(10);
 System.out.println(date);  // prints 2020-01-30
 ```
 
@@ -352,7 +352,7 @@ Zoo_fr.properties
 Locale us = new Locale("en", "US");
 Locale france = new Locale("fr", "FR");
 
-ResourceBundle usResource = ResourceBundle.get("Zoo", france);
+ResourceBundle usResource = ResourceBundle.get("Zoo", us);
 ResourceBundle frResource = ResourceBundle.get("Zoo", france);
 
 System.out.println(usResource.getString("hello"));  // Hello
@@ -365,7 +365,7 @@ Since a resource bundle contains key/value pair, you can loop through them to li
 
 ```java
 Locale us = new Locale("en", "US");
-ResourceBundle resourceBundle = ResourceBundle.get("Zoo", france);
+ResourceBundle resourceBundle = ResourceBundle.get("Zoo", v);
 
 Set<String> keys = resourceBundle.keySet();
 keys.stream()
@@ -500,8 +500,6 @@ System.out.println(value); // 92234.69
 ### Formatting Dates and Times
 
 Java provides a `DateTimeFormatter` class that can be used to format any type of date and/or time object. The `DateTimeFormatter` class can be found within the `java.time.format` package. The example below, shows an example of formatting using the predefined short format. The short format will only format a given date, and hence an `UnsupportedTemporalTypeException` is thrown when a time value is given.
-
-
 
 ```java
 LocalDate date = LocalDate.of(2020, Month.JANUARY, 20);

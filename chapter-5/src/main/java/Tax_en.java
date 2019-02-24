@@ -1,5 +1,3 @@
-package com.github.lukehackett.ocp.chapter5.resource;
-
 import java.util.ListResourceBundle;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -15,8 +13,10 @@ public class Tax_en extends ListResourceBundle {
     }
 
     public static void main(String[] args) {
-        ResourceBundle rb = ResourceBundle.getBundle("com.github.lukehackett.ocp.chapter5.resource.Tax", Locale.US);
+        ResourceBundle rb = ResourceBundle.getBundle("Tax", Locale.US);
         System.out.println(rb.getObject("vat"));
+        System.out.println(rb.getObject("corporation"));
+        System.out.println(rb.getObject("message"));
     }
 
 }
