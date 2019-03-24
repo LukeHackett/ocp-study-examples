@@ -4,7 +4,7 @@ public class LocalInner {
     private int length = 5;
 
     public void calculate() {
-        final int width = 20;
+        int width = 20;  // variable must be final or effectively final
         class Inner {
             public void multiply() {
                 System.out.println(length * width);

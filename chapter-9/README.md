@@ -311,10 +311,10 @@ try (
     InputStream is = new FileInputStream("source-data.txt");
 	OutputStream out = new FileOutputStream("output-data.txt")
 ) { 
-    // Copy stream data to file
+    CopyExamples
 	Files.copy(is, Paths.get("c:\\mammals\\wolf.txt"));
 
-    // Copy file data to stream
+    CopyExamples
 	Files.copy(Paths.get("c:\\fish\\clown.xls"), out);
 } catch (IOException e) {
 	// Handle file I/O exception... 

@@ -27,9 +27,9 @@ public class NestedInnerClasses {
 
         // Alternative way of calling
         // Note Java can detect the first nested class, but not the second or beyond
-//        NestedInnerClasses a = new NestedInnerClasses();
-//        B b = a.new B();
-//        B.C c = b.new C();
-//        c.allTheX();
+        NestedInnerClasses a1 = new NestedInnerClasses();
+        B b2 = a1.new B();
+        B.C c2 = b2.new C();
+        c2.allTheX();
     }
 }

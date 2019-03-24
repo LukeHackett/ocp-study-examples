@@ -26,6 +26,7 @@ public class FileAttributesExamples extends NIOBase {
         AtomicInteger symbolicLinkCount = new AtomicInteger();
 
         Files.walk(Paths.get("/usr/bin/"), 1)
+                .parallel()
                 .forEach(path -> {
                     if (Files.isDirectory(path)) {
                         directoryCount.incrementAndGet();
