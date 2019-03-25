@@ -1,15 +1,17 @@
-package com.github.lukehackett.ocp.chapter9;
+package com.github.lukehackett.ocp.chapter9.files;
+
+import com.github.lukehackett.ocp.chapter9.NIOBase;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class SameFiles extends NIOBase {
+public class SameFilesExamples_2 extends NIOBase {
     public Path workDir = resourceDirectory.resolve("examples");
 
     public void sameMonkey() throws IOException {
-        Path monkey = resourceDirectory.resolve("monkey.txt");
-        Path monkey2 = workDir.resolve("monkey.txt");
+        Path monkey = resourceDirectory.resolve("primates/monkey.txt");
+        Path monkey2 = workDir.resolve("primates/monkey.txt");
         Path monkey3 = workDir.resolve("monkey-link.txt");
         Path monkey4 = workDir.resolve("../monkey.txt");
 
@@ -32,7 +34,7 @@ public class SameFiles extends NIOBase {
     }
 
     public static void main(String[] args) throws IOException {
-        SameFiles copyExamples = new SameFiles();
+        SameFilesExamples_2 copyExamples = new SameFilesExamples_2();
         copyExamples.setupWorkDirectory(copyExamples.workDir);
 
         copyExamples.sameMonkey();

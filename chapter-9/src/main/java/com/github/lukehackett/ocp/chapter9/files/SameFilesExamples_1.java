@@ -1,13 +1,13 @@
-package com.github.lukehackett.ocp.chapter9;
+package com.github.lukehackett.ocp.chapter9.files;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class FilesExamples {
+public class SameFilesExamples_1 {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         // Example paths
         Path path1 = Paths.get("/lion");
         Path path2 = Paths.get(".././tiger");

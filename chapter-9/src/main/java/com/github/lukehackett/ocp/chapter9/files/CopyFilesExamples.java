@@ -1,17 +1,18 @@
-package com.github.lukehackett.ocp.chapter9;
+package com.github.lukehackett.ocp.chapter9.files;
+
+import com.github.lukehackett.ocp.chapter9.NIOBase;
 
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 
-public class CopyExamples extends NIOBase {
+public class CopyFilesExamples extends NIOBase {
     public Path workDir = resourceDirectory.resolve("examples");
 
     public void copyMonkey() throws IOException {
-        Path monkey = resourceDirectory.resolve("monkey.txt");
+        Path monkey = resourceDirectory.resolve("primates/monkey.txt");
         Path monkey2 = workDir.resolve("monkey-2.txt");
         Path monkey3 = workDir.resolve("monkey-3.txt");
-        Path monkey4 = workDir.resolve("monkey-4-link.txt");
 
         // Print out the basic file attributes
         printStatistics(monkey, Files.readAttributes(monkey, BasicFileAttributes.class));
@@ -39,10 +40,10 @@ public class CopyExamples extends NIOBase {
     }
 
     public static void main(String[] args) throws IOException {
-        CopyExamples copyExamples = new CopyExamples();
-        copyExamples.setupWorkDirectory(copyExamples.workDir);
+        CopyFilesExamples example = new CopyFilesExamples();
+        example.setupWorkDirectory(example.workDir);
 
-        copyExamples.copyMonkey();
+        example.copyMonkey();
     }
 
 }

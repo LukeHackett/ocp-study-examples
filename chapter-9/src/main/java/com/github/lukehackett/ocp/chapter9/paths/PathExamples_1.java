@@ -1,11 +1,11 @@
-package com.github.lukehackett.ocp.chapter9;
+package com.github.lukehackett.ocp.chapter9.paths;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class PathExamples {
+public class PathExamples_1 {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         // Example paths
         Path path1 = Paths.get("/lion");
         Path path2 = Paths.get("/user/.././root","../kodiacbear.txt");
@@ -19,6 +19,11 @@ public class PathExamples {
         // Obtain the relative path from path2 to path1
         // prints ../lion
         System.out.println(path2.normalize().relativize(path1));
+
+        // relativize(path) requires both paths be absolute or both relative
+        // and given a mix of the two will throw an IllegalArgumentException
+        // System.out.println(path1.relativize(path3));  // throws IllegalArgumentException
+        // System.out.println(path3.relativize(path1));  // throws IllegalArgumentException
 
         // Resolve two paths - note this does not normalize the paths
         // prints /lion/.././tiger

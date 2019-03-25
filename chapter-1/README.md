@@ -243,7 +243,7 @@ public class A {
     }
 
     public static void main(String[] args) {
-        // Call create instances of the classes, and call
+        nested
         A a = new A();
         A.B b = a.new B();
         A.B.C c = b.new C();

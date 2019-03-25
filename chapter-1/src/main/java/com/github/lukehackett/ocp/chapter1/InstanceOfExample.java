@@ -1,6 +1,7 @@
 package com.github.lukehackett.ocp.chapter1;
 
 import java.util.Comparator;
+import java.util.List;
 
 public class InstanceOfExample {
 
@@ -17,6 +18,10 @@ public class InstanceOfExample {
         // and thus Chipmunk could become Furry at runtime.
         if (c instanceof Furry)
             System.out.println("is a furry");
+
+        // A List is an Interface so this compiles!
+        if (c instanceof List)
+            System.out.println("is a List");
 
         // Likewise, it could also become another instance of a random interface
         if (c instanceof Comparator)

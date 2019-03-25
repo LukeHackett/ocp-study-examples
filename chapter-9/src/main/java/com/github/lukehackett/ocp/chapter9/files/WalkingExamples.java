@@ -1,4 +1,4 @@
-package com.github.lukehackett.ocp.chapter9;
+package com.github.lukehackett.ocp.chapter9.files;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -1,4 +1,4 @@
-package com.github.lukehackett.ocp.chapter1;
+package com.github.lukehackett.ocp.chapter1.nested;
 
 public class LocalInner {
     private int length = 5;

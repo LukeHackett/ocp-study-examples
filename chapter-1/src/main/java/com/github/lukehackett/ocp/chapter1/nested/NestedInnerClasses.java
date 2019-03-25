@@ -1,4 +1,4 @@
-package com.github.lukehackett.ocp.chapter1;
+package com.github.lukehackett.ocp.chapter1.nested;
 
 public class NestedInnerClasses {
     private int x = 10;
@@ -19,7 +19,7 @@ public class NestedInnerClasses {
     }
 
     public static void main(String[] args) {
-        // Call create instances of the classes, and call
+        // Call create instances of the nested, and call
         NestedInnerClasses a = new NestedInnerClasses();
         NestedInnerClasses.B b = a.new B();
         NestedInnerClasses.B.C c = b.new C();

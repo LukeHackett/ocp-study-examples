@@ -1,4 +1,4 @@
-package com.github.lukehackett.ocp.chapter3;
+package com.github.lukehackett.ocp.chapter3.compare;
 
 import java.util.Arrays;
 import java.util.Collections;

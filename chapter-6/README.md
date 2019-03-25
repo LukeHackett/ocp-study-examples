@@ -242,7 +242,7 @@ assert (boolean_expression): (error_message);
 * When assertions are disabled, Java will skip executing all assertions.
 
 ```bash
-# enable assertions for all classes that reside within the com.foo.bar.* packages
+nested
 java -ea:com.foo.bar... my.program.Main
 
 # enable assertions for a specific class

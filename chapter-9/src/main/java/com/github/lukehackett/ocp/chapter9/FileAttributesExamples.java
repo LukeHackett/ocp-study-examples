@@ -13,7 +13,7 @@ public class FileAttributesExamples extends NIOBase {
     }
 
     public void copy() throws IOException {
-        Path p1 = Paths.get(resourceDirectoryPath, "monkey.txt");
+        Path p1 = Paths.get(resourceDirectoryPath, "primates/monkey.txt");
         Path p2 = Paths.get(resourceDirectoryPath, "/animal");
 
         Files.move(p1, p2, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING, LinkOption.NOFOLLOW_LINKS);

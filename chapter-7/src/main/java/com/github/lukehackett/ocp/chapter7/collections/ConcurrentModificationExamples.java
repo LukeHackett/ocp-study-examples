@@ -10,6 +10,7 @@ public class ConcurrentModificationExamples {
         List<Integer> list1 = new ArrayList<>(Arrays.asList(1,2,3));
         List<Integer> list2 = new CopyOnWriteArrayList<>(Arrays.asList(1,2,3));
         Deque<Integer> list3 = new ArrayDeque<>(Arrays.asList(1,2,3));
+        List<Integer> list4 = Collections.synchronizedList(new ArrayList<>(Arrays.asList(1,2,3)));
         Map<Integer,Integer> map1 = new ConcurrentHashMap<>();
         map1.put(1, 2);
         map1.put(3, 3);
@@ -43,6 +44,13 @@ public class ConcurrentModificationExamples {
         }
 
         try {
+            for(Integer item : list4)
+                list4.add(item);
+        } catch (ConcurrentModificationException e) {
+            System.out.println("Unable to modify synchronizedList");
+        }
+
+        try {
             for(Integer key : map1.keySet())
                 map1.remove(key);
         } catch (ConcurrentModificationException e) {
@@ -52,6 +60,7 @@ public class ConcurrentModificationExamples {
         System.out.println("list1 size " + list1.size());
         System.out.println("list2 size " + list2.size());
         System.out.println("list3 size " + list3.size());
+        System.out.println("list4 size " + list4.size());
         System.out.println("map1  size " + map1.size());
     }
 
