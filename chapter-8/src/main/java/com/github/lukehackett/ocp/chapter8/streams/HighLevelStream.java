@@ -1,4 +1,6 @@
-package com.github.lukehackett.ocp.chapter8;
+package com.github.lukehackett.ocp.chapter8.streams;
+
+import com.github.lukehackett.ocp.chapter8.IOCopyBaseClass;
 
 import java.io.*;
 

@@ -1,4 +1,4 @@
-package com.github.lukehackett.ocp.chapter8;
+package com.github.lukehackett.ocp.chapter8.console;
 
 import java.io.*;
 

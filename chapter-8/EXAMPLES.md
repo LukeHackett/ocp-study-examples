@@ -4,5 +4,6 @@ The `UserInput` example cannot be ran from within Intellij, as Intellij does not
 To run the `UserInput` example, the following maven command can be used:
 
 ```shell
-mvn compile exec:java -Dexec.mainClass="com.github.lukehackett.ocp.chapter8.UserInput" --quiet
+mvn compile exec:java -Dexec.mainClass="com.github.lukehackett.ocp.chapter8.console.UserInput" --quiet
+mvn compile exec:java -Dexec.mainClass="com.github.lukehackett.ocp.chapter8.console.ConsoleExample" --quiet
 ```

@@ -1,4 +1,6 @@
-package com.github.lukehackett.ocp.chapter8;
+package com.github.lukehackett.ocp.chapter8.streams;
+
+import com.github.lukehackett.ocp.chapter8.IOBaseClass;
 
 import java.io.*;
 import java.util.ArrayList;
