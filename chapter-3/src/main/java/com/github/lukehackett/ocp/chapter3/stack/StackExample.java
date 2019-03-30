@@ -1,4 +1,4 @@
-package com.github.lukehackett.ocp.chapter3;
+package com.github.lukehackett.ocp.chapter3.stack;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

@@ -1,5 +1,6 @@
-package com.github.lukehackett.ocp.chapter3;
+package com.github.lukehackett.ocp.chapter3.queue.double_ended;
 
+import java.util.Deque;
 import java.util.LinkedList;
 
 public class LinkedListExample {
@@ -7,7 +8,7 @@ public class LinkedListExample {
     public static void main(String[] args) {
         // LinkedLists are double-ended queues
         // LinkedLists are not as efficient as a "pure" queue, such as ArrayDeque
-        LinkedList<Number> orderNumbers = new LinkedList<>();
+        Deque<Number> orderNumbers = new LinkedList<>();
 
         // offer() and add() both add to the back of the queue
         orderNumbers.offer(1);             // [1]

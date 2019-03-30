@@ -1,4 +1,4 @@
-package com.github.lukehackett.ocp.chapter3;
+package com.github.lukehackett.ocp.chapter3.generics;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class WildcardExamples {
+public class BoundExamples {
 
     public static void main(String[] args) {
         // Unbounded wildcard list of Objects
@@ -35,7 +35,7 @@ public class WildcardExamples {
         // Removals are fine items=[bar, baz]
         strings.remove("foo");
 
-        // Print the lists out
+        // Print the sets out
         printItems("printing objects...", objects);
         printItems("printing numbers...", numbers);
         printItems("printing strings...", strings);

@@ -10,6 +10,8 @@ public class ComparableHashSet {
         String name;
         Panda(String name) { this.name = name; }
 
+        // equals is used to determine whether or not two objects are the
+        // same, and hence whether or not the object can be added to a Set.
         public boolean equals(Object obj) {
             if (obj == null)
                 return false;
@@ -22,7 +24,10 @@ public class ComparableHashSet {
             return false;
         }
 
+        // hashCode() determines which "bucket" the object will reside in
+        // the HashSet (which is a HashMap underneath).
         public int hashCode() { return 21; }
+
         public String toString() { return "" + name; }
     }
 
