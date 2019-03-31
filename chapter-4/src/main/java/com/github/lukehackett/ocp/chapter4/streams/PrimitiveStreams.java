@@ -43,7 +43,5 @@ public class PrimitiveStreams {
                 .filter(i -> i > 5)
                 .mapToObj(i -> ((Double) i).intValue())  // requires an explicit cast, otherwise does not compile
                 .forEach((i) -> System.out.println(i.getClass() + " " + i));
-
-
     }
 }

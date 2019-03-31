@@ -1,13 +1,10 @@
-package com.github.lukehackett.ocp.chapter4.streams;
+package com.github.lukehackett.ocp.chapter4.streams.collectors;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CombiningExample {
-
 
     public static void main(String[] args) {
         Stream<String> lower = Stream.of("a", "b", "c");
@@ -19,15 +16,6 @@ public class CombiningExample {
                 .collect(Collectors.toList());
 
         System.out.println(values);
-
-
-        Queue<Integer> q = new LinkedList<>();
-        q.add(new Integer(6));
-        q.add(new Integer(6));
-        System.out.println(q.size() + " " + q.contains(6L));
-
     }
-
-
 
 }

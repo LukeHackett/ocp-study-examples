@@ -1,6 +1,7 @@
-package com.github.lukehackett.ocp.chapter4.streams;
+package com.github.lukehackett.ocp.chapter4.streams.collectors;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
