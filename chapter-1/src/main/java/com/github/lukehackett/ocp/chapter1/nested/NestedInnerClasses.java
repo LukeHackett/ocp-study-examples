@@ -12,8 +12,11 @@ public class NestedInnerClasses {
             public void allTheX() {
                 System.out.println(x);
                 System.out.println(this.x);
+                System.out.println(C.this.x);
                 System.out.println(B.this.x);
+                System.out.println(NestedInnerClasses.B.this.x);
                 System.out.println(NestedInnerClasses.this.x);
+                System.out.println();
             }
         }
     }
