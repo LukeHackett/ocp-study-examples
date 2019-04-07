@@ -1,6 +1,8 @@
 package com.github.lukehackett.ocp.chapter4.streams.collectors;
 
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Optional;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -16,6 +18,14 @@ public class CollectorsExample {
                 .collect(Collectors.groupingBy((a) -> a.substring(0, 1), Collectors.averagingInt((s) -> s.length())))
                 .forEach(CollectorsExample::printKeyValue);
 
+        Optional<String> largestCityName = Stream.of(UK_CITIES)
+                .collect(Collectors.maxBy(Comparator.comparing(String::length)));
+        System.out.println("Largest City Name: " + largestCityName);
+
+        Optional<String> smallestCityName = Stream.of(UK_CITIES)
+                .collect(Collectors.minBy(Comparator.comparing(String::length)));
+        System.out.println("Smallest City Name: " + smallestCityName);
+
         // averagingInt, averagingDouble, averagingLong all return double
         double averageCityNameLength = Stream.of(UK_CITIES)
                 .collect(Collectors.averagingInt(String::length));
@@ -25,7 +35,6 @@ public class CollectorsExample {
         long cityCount = Stream.of(UK_CITIES)
                 .collect(Collectors.counting());
         System.out.println("Number of UK Cities: " + cityCount);
-
 
         System.out.println("City Lengths:");
         Stream.of(UK_CITIES, US_CITIES)
