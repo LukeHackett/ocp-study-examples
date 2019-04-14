@@ -1,9 +1,9 @@
-package com.github.lukehackett.ocp.chapter7;
+package com.github.lukehackett.ocp.chapter7.atomic;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
-public class AtomicData {
+public class AtomicNumber {
     public static AtomicInteger integer = new AtomicInteger(0);
 
     // Atomic Arrays can be initialised with an existing array or with the desired size of the array

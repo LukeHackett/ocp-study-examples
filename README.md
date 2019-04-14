@@ -1,8 +1,9 @@
 # Oracle Certified Professional - Java 8 - Study Examples
 
-Study notes and working examples taken from the [Java OCP 8 Programmer II Study Guide][study_book].
+Study notes and working examples taken from the [Java OCP 8 Programmer II Study Guide][study_book], Wiley's Test Banks can be accessed [here][wiley-test-bank].
 
 [study_book]: https://www.selikoff.net/java-ocp-8-programmer-ii-study-guide/
+[wiley-test-bank]: https://testbanks.wiley.com/WPDACE/Login
 
 ## Table of Contents
 

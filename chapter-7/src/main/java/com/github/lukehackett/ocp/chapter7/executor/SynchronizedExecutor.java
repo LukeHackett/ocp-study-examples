@@ -40,7 +40,7 @@ public class SynchronizedExecutor {
             }
         }
 
-        // Shutdown the executor service and wait for upto 5 minutes
+        // Shutdown the executor service and wait for upto 5 seconds
         try {
             executorService.shutdown();
             executorService.awaitTermination(5, TimeUnit.SECONDS);
